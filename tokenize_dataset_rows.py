@@ -18,7 +18,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--jsonl_path", type=str, default="data/alpaca_data.jsonl")
     parser.add_argument("--save_path", type=str, default="data/alpaca")
-    parser.add_argument("--max_seq_length", type=int, default=384)
+    parser.add_argument("--max_seq_length", type=int, default=256)
     args = parser.parse_args()
 
     tokenizer = transformers.AutoTokenizer.from_pretrained(
