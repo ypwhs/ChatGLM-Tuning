@@ -65,7 +65,7 @@ def main():
         "THUDM/chatglm-6b",
         load_in_8bit=True,
         trust_remote_code=True,
-        device_map='auto')
+        device_map={'': torch.cuda.current_device()})
     model.gradient_checkpointing_enable()
     model.enable_input_require_grads()
     model.is_parallelizable = True
