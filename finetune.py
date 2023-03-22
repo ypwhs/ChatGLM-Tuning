@@ -11,7 +11,7 @@ import os
 
 @dataclass
 class FinetuneArguments:
-    dataset_path: str = field(default="data/alpaca")
+    dataset_path: str = field(default="data/ypw")
     model_path: str = field(default="output")
     lora_rank: int = field(default=8)
 
