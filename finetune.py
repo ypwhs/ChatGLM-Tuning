@@ -142,7 +142,7 @@ def main():
         task_type=TaskType.CAUSAL_LM,
         inference_mode=False,
         r=finetune_args.lora_rank,
-        lora_alpha=finetune_args.alpha,
+        lora_alpha=finetune_args.lora_alpha,
         lora_dropout=0.1,
     )
     model = get_peft_model(model, peft_config)
