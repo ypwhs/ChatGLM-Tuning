@@ -8,7 +8,7 @@ import datasets
 import transformers
 
 
-def preprocess(tokenizer, example, max_seq_length=512):
+def preprocess(tokenizer, example, max_seq_length):
     prompt = example["context"]
     target = example["target"]
     prompt_ids = tokenizer.encode(
@@ -22,13 +22,17 @@ def preprocess(tokenizer, example, max_seq_length=512):
     return {"input_ids": input_ids, "seq_len": len(prompt_ids)}
 
 
-def read_jsonl(path):
+def read_jsonl(path, max_seq_length, skip_overlength=False):
     tokenizer = transformers.AutoTokenizer.from_pretrained(
         "THUDM/chatglm-6b", trust_remote_code=True)
     with open(path, "r") as f:
-        for line in tqdm(f):
+        for line in tqdm(f.readlines()):
             example = json.loads(line)
-            yield preprocess(tokenizer, example)
+            feature = preprocess(tokenizer, example, max_seq_length)
+            if skip_overlength and len(feature["input_ids"]) > max_seq_length:
+                continue
+            feature["input_ids"] = feature["input_ids"][:max_seq_length]
+            yield feature
 
 
 def main():
@@ -37,12 +41,14 @@ def main():
         "--jsonl_path", type=str, default="data/alpaca_data.jsonl")
     parser.add_argument("--save_path", type=str, default="data/alpaca")
     parser.add_argument("--max_seq_length", type=int, default=256)
+    parser.add_argument("--skip_overlength", type=bool, default=False)
     args = parser.parse_args()
 
     shutil.rmtree(args.save_path)
 
     dataset = datasets.Dataset.from_generator(
-        lambda: read_jsonl(args.jsonl_path))
+        lambda: read_jsonl(args.jsonl_path, args.max_seq_length, args.skip_overlength)
+    )
     dataset.save_to_disk(args.save_path)
 
 
