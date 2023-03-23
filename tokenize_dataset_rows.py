@@ -1,5 +1,7 @@
 import argparse
 import json
+import shutil
+
 from tqdm import tqdm
 
 import datasets
@@ -36,6 +38,8 @@ def main():
     parser.add_argument("--save_path", type=str, default="data/alpaca")
     parser.add_argument("--max_seq_length", type=int, default=256)
     args = parser.parse_args()
+
+    shutil.rmtree(args.save_path)
 
     dataset = datasets.Dataset.from_generator(
         lambda: read_jsonl(args.jsonl_path))
