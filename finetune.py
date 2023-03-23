@@ -17,7 +17,8 @@ tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=
 class FinetuneArguments:
     dataset_path: str = field(default="data/ypw")
     model_path: str = field(default="output")
-    lora_rank: int = field(default=8)
+    lora_rank: int = field(default=64)
+    lora_alpha: int = field(default=128)
 
 
 class CastOutputToFloat(nn.Sequential):
@@ -141,7 +142,7 @@ def main():
         task_type=TaskType.CAUSAL_LM,
         inference_mode=False,
         r=finetune_args.lora_rank,
-        lora_alpha=32,
+        lora_alpha=finetune_args.alpha,
         lora_dropout=0.1,
     )
     model = get_peft_model(model, peft_config)
