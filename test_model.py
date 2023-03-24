@@ -12,14 +12,16 @@ model = ChatGLMForConditionalGeneration.from_pretrained(
     trust_remote_code=True,
     device_map='auto')
 
-peft_path = "fine_tuning/chatglm-lora.pt"
+peft_path = "/share/ypw/chatglm-lora.pt"
 peft_config = LoraConfig(
     task_type=TaskType.CAUSAL_LM,
     inference_mode=True,
     r=32,
     lora_alpha=128,
     lora_dropout=0.1,
-    target_modules=["query_key_value", "dense", "dense_h_to_4h", "dense_4h_to_h"],
+    target_modules=[
+        "query_key_value", "dense", "dense_h_to_4h", "dense_4h_to_h"
+    ],
 )
 
 model = get_peft_model(model, peft_config)
@@ -32,27 +34,13 @@ questions = [
     '你是谁？',
     '你几岁了？',
     '你上几年级了？',
-    '你在哪里上学？',
     '你喜欢爸爸还是喜欢妈妈？',
+    '你喜欢吃什么？',
+    '你喜欢看什么动画片？',
 
     # Copilot的问题
-    '你喜欢吃什么？',
-    '你喜欢什么运动？',
-    '你喜欢什么电影？',
-    '你喜欢什么音乐？',
-    '你喜欢什么书？',
-    '你喜欢什么游戏？',
-    '你喜欢什么动漫？',
-    '你喜欢什么动物？',
-    '你在哪里工作？',
-    '你喜欢吃什么？',
-    '你喜欢什么颜色？',
-    '你喜欢什么水果？',
-    '你喜欢什么蔬菜？',
-    '你喜欢什么饮料？',
-    '你喜欢什么食物？',
-
     '计算1+1=',
+    '请写一个 Python 函数，输入一个整数，返回它的平方，请直接给出代码。',
     '你好，请写一首关于特斯拉的诗。要求押韵，符合七言绝句。'
 ]
 
@@ -67,4 +55,4 @@ for idx, q in enumerate(questions):
         temperature=0.9)
     out_text = tokenizer.decode(out[0])
     answer = out_text.replace(input_text, "").replace("\nEND", "").strip()
-    print(out_text)
+    print(out_text.replace('\n\n', '\n'), '\n')
