@@ -17,7 +17,7 @@ tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=
 class FinetuneArguments:
     dataset_path: str = field(default="data/ypw")
     model_path: str = field(default="output")
-    lora_rank: int = field(default=64)
+    lora_rank: int = field(default=32)
     lora_alpha: int = field(default=128)
 
 
