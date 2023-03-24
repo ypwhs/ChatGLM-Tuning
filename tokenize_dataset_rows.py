@@ -51,7 +51,8 @@ def main():
 
     dataset = datasets.Dataset.from_generator(
         lambda: read_jsonl(
-            args.jsonl_path, args.max_seq_length, args.skip_overlength))
+            args.jsonl_path, args.max_seq_length, args.skip_overlength),
+        cache_dir=None)
     dataset.save_to_disk(args.save_path)
 
 
