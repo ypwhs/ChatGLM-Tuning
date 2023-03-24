@@ -77,7 +77,7 @@ def data_collator(features: list) -> dict:
             + stop_token
             + [-100] * (longest - ids_l - len(stop_token))
         )
-        ids = ids + [tokenizer.eos_token_id] * (longest - ids_l)
+        ids = ids + stop_token * (longest - ids_l)
         _ids = torch.LongTensor(ids)
         attention_mask, position_ids = get_masks_and_position_ids(
             ids, seq_len, longest, _ids.device, gmask=False
