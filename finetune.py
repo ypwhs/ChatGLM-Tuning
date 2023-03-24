@@ -70,7 +70,7 @@ def data_collator(features: list) -> dict:
     for ids_l, feature in sorted(zip(len_ids, features), key=lambda x: -x[0]):
         ids = feature["input_ids"]
         seq_len = feature["seq_len"]
-        stop_token = [tokenizer.bos_token_id]
+        stop_token = [tokenizer.eos_token_id]
         labels = (
             [-100] * (seq_len - 1)
             + ids[(seq_len - 1):]
