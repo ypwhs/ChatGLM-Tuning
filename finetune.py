@@ -145,6 +145,7 @@ def main():
         r=finetune_args.lora_rank,
         lora_alpha=finetune_args.lora_alpha,
         lora_dropout=0.1,
+        target_modules=["query_key_value", "dense", "dense_h_to_4h", "dense_4h_to_h"],
     )
     model = get_peft_model(model, peft_config)
 

@@ -18,7 +18,9 @@ peft_config = LoraConfig(
     inference_mode=True,
     r=64,
     lora_alpha=128,
-    lora_dropout=0.1)
+    lora_dropout=0.1,
+    target_modules=["query_key_value", "dense", "dense_h_to_4h", "dense_4h_to_h"],
+)
 
 model = get_peft_model(model, peft_config)
 model.load_state_dict(torch.load(peft_path), strict=False)
