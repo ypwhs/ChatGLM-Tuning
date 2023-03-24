@@ -8,6 +8,15 @@
         <img alt="Build" src="https://colab.research.google.com/assets/colab-badge.svg">
     </a>
 
+## YPW
+
+初步训练成果，让ChatGLM保持原有能力的同时回答我是谁，我多大了，我喜欢吃什么……
+
+<img width="979" alt="image" src="https://user-images.githubusercontent.com/10473170/227542465-73a5074c-b84a-4ba3-914f-350e8c91cdd4.png">
+
+<img width="787" alt="image" src="https://user-images.githubusercontent.com/10473170/227542504-c8ec33ae-d2d6-4bdd-951b-56759e5ff5e7.png">
+
+<img width="556" alt="image" src="https://user-images.githubusercontent.com/10473170/227542523-03ebaee1-c39d-424c-abbd-e1cba6c94b66.png">
 
 ## S1 Finetune
 
