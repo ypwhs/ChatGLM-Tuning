@@ -1,5 +1,6 @@
 import argparse
 import json
+import os
 import shutil
 
 from tqdm import tqdm
@@ -41,13 +42,13 @@ def read_jsonl(path, max_seq_length, skip_overlength=False):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--jsonl_path", type=str, default="data/alpaca_data.jsonl")
-    parser.add_argument("--save_path", type=str, default="data/alpaca")
+        "--jsonl_path", type=str, default="data/ypw_data.jsonl")
+    parser.add_argument("--save_path", type=str, default="data/ypw")
     parser.add_argument("--max_seq_length", type=int, default=256)
     parser.add_argument("--skip_overlength", type=bool, default=False)
     args = parser.parse_args()
 
-    shutil.rmtree(args.save_path)
+    shutil.rmtree(args.save_path, ignore_errors=True)
 
     dataset = datasets.Dataset.from_generator(
         lambda: read_jsonl(
