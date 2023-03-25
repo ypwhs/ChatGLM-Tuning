@@ -62,7 +62,7 @@ def get_masks_and_position_ids(
 
 def data_collator(features: list) -> dict:
     len_ids = [len(feature["input_ids"]) for feature in features]
-    longest = max(len_ids) + 1
+    longest = max(len_ids)
     input_ids = []
     attention_mask_list = []
     position_ids_list = []
@@ -74,10 +74,9 @@ def data_collator(features: list) -> dict:
         labels = (
             [-100] * (seq_len - 1)
             + ids[(seq_len - 1):]
-            + stop_token
-            + [-100] * (longest - ids_l - len(stop_token))
+            + [-100] * (longest - ids_l)
         )
-        ids = ids + stop_token * (longest - ids_l)
+        ids = ids + [tokenizer.pad_token_id] * (longest - ids_l)
         _ids = torch.LongTensor(ids)
         attention_mask, position_ids = get_masks_and_position_ids(
             ids, seq_len, longest, _ids.device, gmask=False
@@ -111,14 +110,10 @@ class ModifiedTrainer(Trainer):
         from transformers.trainer import TRAINING_ARGS_NAME
         os.makedirs(output_dir, exist_ok=True)
         torch.save(self.args, os.path.join(output_dir, TRAINING_ARGS_NAME))
-        save_tunable_parameters(self.model, os.path.join(output_dir, "chatglm-lora.pt"))
-
-
-def save_tunable_parameters(model, path):
-    saved_params = {
-        k: v.to("cpu") for k, v in model.named_parameters() if v.requires_grad
-    }
-    torch.save(saved_params, path)
+        saved_params = {
+            k: v.to("cpu") for k, v in self.model.named_parameters() if v.requires_grad
+        }
+        torch.save(saved_params, os.path.join(output_dir, "adapter_model.bin"))
 
 
 def main():
@@ -168,8 +163,7 @@ def main():
     trainer.train()
 
     # save model
-    save_tunable_parameters(
-        model, os.path.join(training_args.output_dir, "chatglm-lora.pt"))
+    model.save_pretrained(training_args.output_dir)
 
 
 if __name__ == "__main__":
