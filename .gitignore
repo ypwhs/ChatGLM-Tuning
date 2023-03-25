@@ -35,6 +35,8 @@ work_dirs/
 *.pdf
 *.json
 *.jsonl
+*.arrow
+data
 
 Thumbs.db
 .DS_Store
