@@ -1,7 +1,7 @@
 import jsonlines
 import random
 
-with jsonlines.open('Belle.train.json') as data:
+with jsonlines.open('data/belle_open_source_1M.train.json') as data:
     data = list(data)
 
 print(len(data))
@@ -35,5 +35,5 @@ print(len(data4), len(my_data) * copy_times)
 random.seed(42)
 random.shuffle(data4)
 
-with jsonlines.open('ypw_data.jsonl', 'w') as f:
+with jsonlines.open('data/ypw_data.jsonl', 'w') as f:
     f.write_all(data4)
