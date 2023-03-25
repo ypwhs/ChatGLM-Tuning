@@ -43,7 +43,7 @@ def main():
     parser.add_argument(
         "--jsonl_path", type=str, default="data/ypw_data.jsonl")
     parser.add_argument("--save_path", type=str, default="data/ypw")
-    parser.add_argument("--max_seq_length", type=int, default=256)
+    parser.add_argument("--max_seq_length", type=int, default=128)
     parser.add_argument("--skip_overlength", type=bool, default=True)
     args = parser.parse_args()
 
