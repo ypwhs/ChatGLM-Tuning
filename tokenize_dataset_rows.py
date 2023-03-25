@@ -47,12 +47,10 @@ def main():
     parser.add_argument("--skip_overlength", type=bool, default=False)
     args = parser.parse_args()
 
-    shutil.rmtree(args.save_path, ignore_errors=True)
-
+    datasets.disable_caching()
     dataset = datasets.Dataset.from_generator(
         lambda: read_jsonl(
-            args.jsonl_path, args.max_seq_length, args.skip_overlength),
-        cache_dir=None)
+            args.jsonl_path, args.max_seq_length, args.skip_overlength))
     dataset.save_to_disk(args.save_path)
 
 
