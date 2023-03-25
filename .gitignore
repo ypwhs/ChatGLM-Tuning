@@ -37,6 +37,7 @@ work_dirs/
 *.jsonl
 *.arrow
 data
+runs
 
 Thumbs.db
 .DS_Store
