@@ -12,7 +12,7 @@ model = ChatGLMForConditionalGeneration.from_pretrained(
     trust_remote_code=True,
     device_map='auto')
 
-peft_path = "/share/ypw/chatglm-lora.pt"
+peft_path = "chatglm_ypw/adapter_model.bin"
 peft_config = LoraConfig(
     task_type=TaskType.CAUSAL_LM,
     inference_mode=True,
