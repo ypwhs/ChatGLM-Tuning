@@ -1,6 +1,6 @@
 import argparse
 import json
-import shutil
+import os
 
 from tqdm import tqdm
 
@@ -46,6 +46,8 @@ def main():
     parser.add_argument("--max_seq_length", type=int, default=128)
     parser.add_argument("--skip_overlength", type=bool, default=True)
     args = parser.parse_args()
+
+    os.environ['HF_DATASETS_OFFLINE'] = '1'
 
     datasets.disable_caching()
     dataset = datasets.Dataset.from_generator(
